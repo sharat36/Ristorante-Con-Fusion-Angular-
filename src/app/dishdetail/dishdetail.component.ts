@@ -22,6 +22,7 @@ export class DishdetailComponent implements OnInit {
   dishIds: string[];
   prev: string;
   next: string;
+  errMess: string;
 
   commentForm: FormGroup;
   comment: Comment;
@@ -56,17 +57,18 @@ export class DishdetailComponent implements OnInit {
     this.dishService.getDishIds().subscribe((dishIds) => 
       this.dishIds = dishIds);
 
-    this.route.params.pipe(switchMap((params: Params) => 
-      this.dishService.getDish(params['id']))).subscribe((dish) => 
-      {this.dish = dish; this.setPrevNext(dish.id); });
+    this.route.params
+      .pipe(switchMap((params: Params) => 
+        this.dishService.getDish(params['id'])))
+        .subscribe((dish) => { this.dish = dish; this.setPrevNext(dish.id); },
+          errmess => this.errMess = <any>errmess );
   }
 
   createForm() {
     this.commentForm = this.fb.group({
       author: ['', [Validators.required, Validators.minLength(2)]],
       comment: ['', Validators.required],
-      rating: 5,
-      date: ''
+      rating: 5
     });
 
     this.commentForm.valueChanges
@@ -123,8 +125,7 @@ export class DishdetailComponent implements OnInit {
     this.commentForm.reset({
       author: '',
       comment: '',
-      rating: 5,
-      date: ''
+      rating: 5
     });
 
     this.commentFormDirective.resetForm(

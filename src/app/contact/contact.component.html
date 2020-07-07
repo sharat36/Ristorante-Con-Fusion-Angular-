@@ -25,9 +25,11 @@
         </address>
         <p></p>
         <div>
-          <a mat-raised-button href="tel:+85212345678"><i class="fa fa-phone"></i> Call</a>
+          <a mat-raised-button href="tel:+85212345678">
+            <i class="fa fa-phone"></i> Call</a>
           <a mat-raised-button><i class="fa fa-skype"></i> Skype</a>
-          <a mat-raised-button href="mailto:confusion@food.net"><i class="fa fa-envelope-o"></i> Email</a>
+          <a mat-raised-button href="mailto:confusion@food.net">
+            <i class="fa fa-envelope-o"></i> Email</a>
         </div>
         </div>
       <div fxFlex="40">
@@ -38,8 +40,7 @@
 
   <div fxFlex fxFlexOffset="20px" class="form-size">
     <h3>Send us your FeedBack</h3>
-    <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p>
-
+    
     <form novalidate [formGroup]="feedbackForm" #fform="ngForm" 
       (ngSubmit)="onSubmit()">
       <p>
@@ -84,7 +85,8 @@
 
       <table class="form-size">
         <td>
-          <mat-slide-toggle formControlName="agree">May we contact you?</mat-slide-toggle>
+          <mat-slide-toggle formControlName="agree">May we contact you?s
+          </mat-slide-toggle>
         </td>
 
         <td>
