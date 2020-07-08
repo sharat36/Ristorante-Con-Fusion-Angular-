@@ -39,7 +39,6 @@ import { LeaderService } from './services/leader.service';
 import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 
 import { baseURL } from './shared/baseurl';
-import { from } from 'rxjs';
 import { HighlightDirective } from './directives/highlight.directive';
 
 @NgModule({
