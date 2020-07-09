@@ -3,7 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Feedback, ContactType } from '../shared/feedback';
 
-import { flyInOut } from '../animations/app.animation';
+import { flyInOut, expand } from '../animations/app.animation';
+
+import { FeedbackService } from '../services/feedback.service';
 
 @Component({
   selector: 'app-contact',
@@ -14,14 +16,20 @@ import { flyInOut } from '../animations/app.animation';
     'style': 'display: block;'
   },
   animations: [
-    flyInOut()
+    flyInOut(),
+    expand()
   ]
 })
 export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
   feedback: Feedback;
+  feedbackcopy: Feedback;
   contactType = ContactType;
+  flag1 = true;
+  flag2 = true;
+  
+  errMsg: string;
 
   @ViewChild('fform') feedbackFormDirective;
 
@@ -57,7 +65,8 @@ export class ContactComponent implements OnInit {
 
   };
 
-  constructor(private fb: FormBuilder) { 
+  constructor(private fb: FormBuilder,
+    private feedbackService: FeedbackService) { 
     this.createForm();
    }
 
@@ -106,8 +115,23 @@ export class ContactComponent implements OnInit {
   }
 
   onSubmit() {
-    this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
+    this.feedbackcopy = this.feedbackForm.value;
+
+    this.flag1 = false;
+    this.flag2 = false;
+
+    
+    console.log(this.feedbackcopy);
+
+    this.feedbackService.submitFeedback(this.feedbackcopy)
+      .subscribe(feedback => { this.feedback = feedback;
+        this.feedbackcopy = feedback, this.flag1 = true; },
+        errmess => { this.errMsg = <any>errmess; 
+          this.feedback = null; this.feedbackcopy = null; 
+            this.flag1 = true; });
+    
+    setTimeout(() => {this.feedback = null; this.flag2 = true}, 5000);
+
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',
@@ -117,6 +141,7 @@ export class ContactComponent implements OnInit {
       contacttype: 'None',
       message: ''
     });
+
     this.feedbackFormDirective.resetForm();
   }
 

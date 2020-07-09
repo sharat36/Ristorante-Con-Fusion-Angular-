@@ -31,16 +31,14 @@
           <a mat-raised-button href="mailto:confusion@food.net">
             <i class="fa fa-envelope-o"></i> Email</a>
         </div>
-        </div>
-      <div fxFlex="40">
-        <h4>Map of our Location</h4>
       </div>
     </div>
   </div>
 
-  <div fxFlex fxFlexOffset="20px" class="form-size">
-    <h3>Send us your FeedBack</h3>
-    
+  <h3>Send us your FeedBack</h3>
+
+  <div fxFlex fxFlexOffset="20px" class="form-size" *ngIf="flag2" 
+    [hidden]="errMsg" [@expand]>
     <form novalidate [formGroup]="feedbackForm" #fform="ngForm" 
       (ngSubmit)="onSubmit()">
       <p>
@@ -85,7 +83,7 @@
 
       <table class="form-size">
         <td>
-          <mat-slide-toggle formControlName="agree">May we contact you?s
+          <mat-slide-toggle formControlName="agree">May we contact you?
           </mat-slide-toggle>
         </td>
 
@@ -109,5 +107,26 @@
         class="background-primary text-floral-white"
         [disabled]="feedbackForm.invalid">Submit</button>
     </form>
+  </div>
+
+  <div [hidden]="flag1" [@expand]>
+    <h3>Submitting Form</h3>
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div *ngIf="feedback" [@expand]>
+    <h3>Your Submission</h3>
+    <p>First Name: {{ feedback.firstname }}</p>
+    <p>Last Name: {{ feedback.lastname }}</p>
+    <p>Tel. Number: {{ feedback.telnum }}</p>
+    <p>Email: {{ feedback.email }}</p>
+    <p>Contact You?: {{ feedback.agree }}</p>
+    <p>How?: {{ feedback.contacttype }}</p>
+    <p>Feedback: {{ feedback.message }}</p>
+  </div>
+
+  <div fxFlex *ngIf="errMsg" [@expand]>
+    <h2>Error</h2>
+    <h4>{{ errMsg }}</h4>
   </div>
 </div>
